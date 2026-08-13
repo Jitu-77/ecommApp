@@ -1,6 +1,7 @@
 package com.microService.ecommApp.order_service.controller;
 
 
+import com.microService.ecommApp.order_service.clients.InventoryOpenFeignClient;
 import com.microService.ecommApp.order_service.dto.OrderRequestDto;
 import com.microService.ecommApp.order_service.services.OrdersService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,17 +19,18 @@ import java.util.List;
 public class OrdersController {
 
     private final OrdersService orderService;
+    private final InventoryOpenFeignClient inventoryOpenFeignClient;
 
     @GetMapping("/helloOrders")
     public String helloOrders() {
         return "Hello from Orders Service";
     }
 
-//    @PostMapping("/create-order")
-//    public ResponseEntity<OrderRequestDto> createOrder(@RequestBody OrderRequestDto orderRequestDto) {
-//        OrderRequestDto orderRequestDto1 = orderService.createOrder(orderRequestDto);
-//        return ResponseEntity.ok(orderRequestDto1);
-//    }
+    @PostMapping("/create-order")
+    public ResponseEntity<OrderRequestDto> createOrder(@RequestBody OrderRequestDto orderRequestDto) {
+        OrderRequestDto orderRequestDto1 = orderService.createOrder(orderRequestDto);
+        return ResponseEntity.ok(orderRequestDto1);
+    }
 
     @GetMapping
     public ResponseEntity<List<OrderRequestDto>> getAllOrders(HttpServletRequest httpServletRequest) {

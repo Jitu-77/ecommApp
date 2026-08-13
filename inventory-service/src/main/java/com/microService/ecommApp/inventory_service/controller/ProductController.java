@@ -1,6 +1,8 @@
 package com.microService.ecommApp.inventory_service.controller;
 
 
+import com.microService.ecommApp.inventory_service.clients.OrdersFeignClient;
+import com.microService.ecommApp.inventory_service.dto.OrderRequestDto;
 import com.microService.ecommApp.inventory_service.dto.ProductDto;
 import com.microService.ecommApp.inventory_service.services.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,18 +25,21 @@ public class ProductController {
     private final ProductService productService;
     private final DiscoveryClient discoveryClient;
     private final RestClient restClient;
-
+    private final OrdersFeignClient ordersFeignClient;
     @GetMapping("/fetchOrders")
     public String fetchFromOrdersService(
             HttpServletRequest httpServletRequest // to intercept the headers if passed from api-gateway
     ) {
         log.info(httpServletRequest.getHeader("x-custom-header"));
-        ServiceInstance orderService = discoveryClient.getInstances("order-service").getFirst();
-
-        return restClient.get()
-                .uri(orderService.getUri()+"/orders/core/helloOrders")
-                .retrieve()
-                .body(String.class);
+//        After using orders-feign-client-------------------
+//        ServiceInstance orderService = discoveryClient.getInstances("order-service").getFirst();
+//
+//        return restClient.get()
+//                .uri(orderService.getUri()+"/orders/core/helloOrders")
+//                .retrieve()
+//                .body(String.class);
+//        After using orders-feign-client-------------------
+        return ordersFeignClient.helloOrders();
     }
 
     @GetMapping
@@ -49,10 +54,10 @@ public class ProductController {
         return ResponseEntity.ok(inventory);
     }
 
-//    @PutMapping("reduce-stocks")
-//    public ResponseEntity<Double> reduceStocks(@RequestBody OrderRequestDto orderRequestDto) {
-//        Double totalPrice = productService.reduceStocks(orderRequestDto);
-//        return ResponseEntity.ok(totalPrice);
-//    }
+    @PutMapping("reduce-stocks")
+    public ResponseEntity<Double> reduceStocks(@RequestBody OrderRequestDto orderRequestDto) {
+        Double totalPrice = productService.reduceStocks(orderRequestDto);
+        return ResponseEntity.ok(totalPrice);
+    }
 
 }
