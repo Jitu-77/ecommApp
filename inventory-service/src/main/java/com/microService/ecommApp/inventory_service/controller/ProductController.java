@@ -25,11 +25,14 @@ public class ProductController {
     private final RestClient restClient;
 
     @GetMapping("/fetchOrders")
-    public String fetchFromOrdersService(HttpServletRequest httpServletRequest) {
+    public String fetchFromOrdersService(
+            HttpServletRequest httpServletRequest // to intercept the headers if passed from api-gateway
+    ) {
+        log.info(httpServletRequest.getHeader("x-custom-header"));
         ServiceInstance orderService = discoveryClient.getInstances("order-service").getFirst();
 
         return restClient.get()
-                .uri(orderService.getUri()+"/orders/orders/helloOrders")
+                .uri(orderService.getUri()+"/orders/core/helloOrders")
                 .retrieve()
                 .body(String.class);
     }
