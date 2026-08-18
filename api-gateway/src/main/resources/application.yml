@@ -6,7 +6,8 @@
     cloud:
       gateway:
         server:
-          webmvc:
+#          webmvc:
+          webflux:
             routes:
               - id: order-service
                 uri: lb://ORDER-SERVICE
