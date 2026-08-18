@@ -12,13 +12,14 @@ management:
 # above are actuators settings ------------------
 resilience4j:
   retry:
-#    configs:
-#      default:
-#        maxRetryAttempts: 3
-#        waitDuration: 100ms
+    configs:
+      default:
+        maxRetryAttempts: 3
+        waitDuration: 100ms
     instances:
       inventoryRetry:
-        maxRetryAttempts: 3
+#        maxRetryAttempts: 3
+        base-config: default
         waitDuration: 100ms
   ratelimiter:
     instances:
