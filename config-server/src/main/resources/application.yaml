@@ -1,0 +1,16 @@
+spring.application.name: config-server
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Jitu-77/ecommApp-config-server
+          username: Jitu-77
+          password: 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
+          default-label: main
+server:
+  port: 8888
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
