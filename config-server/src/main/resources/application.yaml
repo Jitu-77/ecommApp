@@ -6,7 +6,7 @@ spring:
         git:
           uri: https://github.com/Jitu-77/ecommApp-config-server
           username: Jitu-77
-          password: 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
+          password: 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
           default-label: main
 server:
   port: 8888
